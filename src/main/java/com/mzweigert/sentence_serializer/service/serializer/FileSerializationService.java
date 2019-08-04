@@ -7,9 +7,9 @@ import java.util.Collection;
 
 public interface FileSerializationService {
 
-    /**
-     * Method serialize given sentences to file (depends on implementation)
-     */
-    void serialize(File file, Collection<Sentence> links);
+	/**
+	 * Method serialize given sentences to file (depends on implementation)
+	 */
+	void serialize(File file, Collection<Sentence> sentences);
 
 }
