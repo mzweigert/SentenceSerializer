@@ -22,11 +22,11 @@ public class SentencesReaderTest {
         File file = readFile("small.in");
 
         //WHEN
-        Collection<Sentence> read = new SentencesReader(file).read();
+        Collection<Sentence> sentences = new SentencesReader(file).read();
 
         //THEN
-        assertThat(read).isNotEmpty();
-        read.forEach(sentence -> {
+        assertThat(sentences).isNotEmpty();
+        sentences.forEach(sentence -> {
             List<String> strings = new ArrayList<>(sentence.getWords());
             assertThat(strings).isSortedAccordingTo(String.CASE_INSENSITIVE_ORDER) ;
         });
