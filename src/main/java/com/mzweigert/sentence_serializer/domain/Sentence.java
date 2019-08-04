@@ -1,16 +1,25 @@
 package com.mzweigert.sentence_serializer.domain;
 
-import java.util.TreeSet;
+import java.util.Collection;
 
 public class Sentence {
 
-    private TreeSet<String> words;
+    private Collection<String> words;
 
-    public Sentence(TreeSet<String> words) {
+    public Sentence(Collection<String> words) {
         this.words = words;
     }
 
-    public TreeSet<String> getWords() {
+    public boolean addWord(String word) {
+        return words.add(word);
+    }
+
+    @Override
+    public String toString() {
+        return words.toString();
+    }
+
+    public Collection<String> getWords() {
         return words;
     }
 }
