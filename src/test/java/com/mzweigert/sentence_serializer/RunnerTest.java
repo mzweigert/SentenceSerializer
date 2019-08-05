@@ -1,6 +1,8 @@
 package com.mzweigert.sentence_serializer;
 
 import com.mzweigert.sentence_serializer.service.serializer.FileSerializationService;
+import com.mzweigert.sentence_serializer.service.serializer.FileSerializationServiceFactory;
+import com.mzweigert.sentence_serializer.service.serializer.SerializationType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -16,7 +18,11 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 public class RunnerTest {
 
 	@Mock
-	private FileSerializationService serializerService;
+	private FileSerializationService xmlSerializationService = FileSerializationServiceFactory.getInstance(SerializationType.XML);
+
+	@Mock
+	private FileSerializationService csvSerializationService = FileSerializationServiceFactory.getInstance(SerializationType.CSV);
+
 
 	@Test
 	public void givenInvalidArgs_whenRun_thenNotRunningSerialization() {
@@ -24,10 +30,11 @@ public class RunnerTest {
 		String[] args = new String[0];
 
 		//WHEN
-		new Runner(args, serializerService).run();
+		new Runner(args, xmlSerializationService, csvSerializationService).run();
 
 		//THEN
-		verifyZeroInteractions(serializerService);
+		verifyZeroInteractions(xmlSerializationService);
+		verifyZeroInteractions(csvSerializationService);
 	}
 
 
@@ -40,12 +47,13 @@ public class RunnerTest {
 		String[] args = new String[]{"small.in"};
 
 		//WHEN
-		new Runner(args, serializerService).run();
+		new Runner(args, xmlSerializationService, csvSerializationService).run();
 
 		//THEN
 		TestUtils.delete(file);
 		TestUtils.delete(new File("output_test"));
-		verify(serializerService).serialize(any(), any());
+		verify(csvSerializationService).serialize(any(), any());
+		verify(xmlSerializationService).serialize(any(), any());
 	}
 
 }

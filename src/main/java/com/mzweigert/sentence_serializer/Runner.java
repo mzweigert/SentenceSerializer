@@ -19,11 +19,13 @@ public class Runner {
 
 	private final String[] args;
 	private FileSerializationService xmlSerializationService;
+	private FileSerializationService csvSerializationService;
 	private String outputDir;
 
-	public Runner(String[] args, FileSerializationService xmlSerialzierService) {
+	public Runner(String[] args, FileSerializationService xmlSerializerService, FileSerializationService csvSerializerService) {
 		this.args = args;
-		this.xmlSerializationService = xmlSerialzierService;
+		this.xmlSerializationService = xmlSerializerService;
+		this.csvSerializationService = csvSerializerService;
 		Properties properties = new Properties();
 		try {
 			properties.load(getClass()
@@ -39,7 +41,8 @@ public class Runner {
 
 	public static void main(String[] args) {
 		FileSerializationService xmlSerializerService = FileSerializationServiceFactory.getInstance(SerializationType.XML);
-		new Runner(args, xmlSerializerService).run();
+		FileSerializationService csvSerializerService = FileSerializationServiceFactory.getInstance(SerializationType.CSV);
+		new Runner(args, xmlSerializerService, csvSerializerService).run();
 	}
 
 	void run() {
@@ -70,6 +73,8 @@ public class Runner {
 			File xmlFile = new File(directory.get() + "sentences.xml");
 			xmlSerializationService.serialize(xmlFile, sentences);
 
+			File csvFile = new File(directory.get() + "sentences.csv");
+			csvSerializationService.serialize(csvFile, sentences);
 		} catch (LengthyInputException e) {
 			System.out.println("Lengthy input");
 		}
