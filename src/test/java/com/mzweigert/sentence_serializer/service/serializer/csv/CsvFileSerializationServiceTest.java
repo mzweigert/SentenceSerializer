@@ -1,4 +1,4 @@
-package com.mzweigert.sentence_serializer.service.serializer.xml;
+package com.mzweigert.sentence_serializer.service.serializer.csv;
 
 import com.mzweigert.sentence_serializer.TestUtils;
 import com.mzweigert.sentence_serializer.domain.Sentence;
@@ -11,20 +11,20 @@ import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.Assert.*;
 
-public class XmlFileSerializationServiceTest {
+public class CsvFileSerializationServiceTest {
 
-	private FileSerializationService service = FileSerializationServiceFactory.getInstance(SerializationType.XML);
+
+	private FileSerializationService service = FileSerializationServiceFactory.getInstance(SerializationType.CSV);
 
 	private String directory = "./output_test/";
 	private String fileName = "file";
@@ -41,10 +41,10 @@ public class XmlFileSerializationServiceTest {
 	}
 
 	@Test
-	public void givenFile_whenSerialize_ThenSuccessCreatingXmlFile() {
+	public void givenFile_whenSerialize_ThenSuccessCreatingCsvFile() {
 		//GIVEN
 		File file = new File(filePath);
-		Collection<Sentence> sentences = TestUtils.createSentences();
+		Collection<Sentence> sentences =  TestUtils.createSentences();
 
 		//WHEN
 		service.serialize(file, sentences);
@@ -54,7 +54,7 @@ public class XmlFileSerializationServiceTest {
 			 BufferedReader reader = new BufferedReader(fileReader)) {
 			String line = reader.readLine();
 			assertThat(line).isNotEmpty();
-			assertThat(line).contains("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
+			assertThat(line).contains(",Word 1");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
